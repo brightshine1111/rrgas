@@ -8,13 +8,13 @@
 #define FLICKER_ON_MIN 100L
 #define FLICKER_ON_MAX 400L
 
-#define FLICKER_OFF_MIN 100L
-#define FLICKER_OFF_MAX 400L
+#define FLICKER_OFF_MIN 50L
+#define FLICKER_OFF_MAX 200L
 
 #define FLICKERS_MIN 1L
 #define FLICKERS_MAX 7L
 
-#define DEBUG false
+#define DEBUG true
 
 void setup() {
   if(DEBUG) Serial.begin(9600);
@@ -25,6 +25,7 @@ void setup() {
 void loop() {
   on();
   off();
+  randomSeed(analogRead(0));
 }
 
 void on() {
@@ -33,7 +34,7 @@ void on() {
   const unsigned long timeFinish = millis() + totalTimeOn;
   long timeRemain = timeFinish - millis();
   while (timeRemain > 0) {
-    output(HIGH, "on", random(0, timeRemain));
+    output(HIGH, "on", random(0, timeRemain/2));
     flicker();
 
     timeRemain = timeFinish - millis();
@@ -43,9 +44,10 @@ void on() {
 void flicker() {
   // Rapidly turn off and on for random intervals, a random number of times
   const long numFlickers = random(FLICKERS_MIN, FLICKERS_MAX);
+  output(LOW, "off", random(FLICKER_OFF_MIN, FLICKER_OFF_MAX));
   for (int i=0; i<numFlickers; i=i+1) {
-    output(LOW, "off", random(FLICKER_OFF_MIN, FLICKER_OFF_MAX));
     output(HIGH, "on", random(FLICKER_ON_MIN, FLICKER_ON_MAX));
+    output(LOW, "off", random(FLICKER_OFF_MIN, FLICKER_OFF_MAX));
   }
 }
 
