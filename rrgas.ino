@@ -13,8 +13,8 @@
 #define FLICKER_OFF_MIN 10L
 #define FLICKER_OFF_MAX 100L
 
-#define FLICKERS_MIN 1L
-#define FLICKERS_MAX 7L
+#define FLICKERS_MIN 0L
+#define FLICKERS_MAX 4L
 
 #define DEBUG true
 
